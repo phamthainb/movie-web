@@ -4,50 +4,33 @@
  *
  */
 
-import React, { memo } from 'react';
 import ErrorBound from 'components/ErrorBound';
-import { useForm } from 'react-hook-form';
-import Button from 'components/Button';
-import { useIntl } from 'react-intl';
-import message from './message';
+import WrapLayout from 'containers/App/WrapLayout';
+import { memo } from 'react';
 
-import reducersHome from './store/reducers';
 import useInjectReducer from 'redux/useInjectReducer';
+import About from './About';
+import Content from './Content';
+import Expected from './Expected';
+import HomeBg from './HomeBg';
+import reducersHome from './store/reducers';
 
 interface Props {}
 
-type LoginFormData = {
-  phone: string;
-  password: string;
-};
 // eslint-disable-next-line
 function Home({}: Props) {
   useInjectReducer('Home', reducersHome);
 
-  const { register, handleSubmit } = useForm<LoginFormData>();
-  const onSubmit = (data: LoginFormData) => {
-    console.log(data);
-  };
-  const intl = useIntl();
-
   return (
     <ErrorBound>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div>
-          <p>{intl.formatMessage({ ...message.phone })}</p>
-          <input type="text" name="phone" ref={register({ required: true })} />
-        </div>
-        <div>
-          <p>{intl.formatMessage({ ...message.password })}</p>
-          <input
-            type="text"
-            name="password"
-            ref={register({ required: true })}
-          />
-        </div>
-
-        <Button type="submit">Login test</Button>
-      </form>
+      <WrapLayout>
+        <>
+          <HomeBg />
+          <Content />
+          <Expected />
+          <About />
+        </>
+      </WrapLayout>
     </ErrorBound>
   );
 }
