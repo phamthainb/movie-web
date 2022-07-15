@@ -1,34 +1,44 @@
 {
-    "folders": [
-     {
-        "path": "./docs",
-        "name": "DOCS"
-      },
-      {
-        "path": "./back-end",
-        "name": "BACKEND🔥"
-      },
-      {
-        "path": "./front-end",
-        "name": "FRONTEND🌎"
-      },
-      {
-        "path": ".",
-        "name": "ROOT🇻🇳"
-      }
-    ],
-    "settings": {
-      "files.exclude": {
-        "**/.git": true,
-        "**/.svn": true,
-        "**/.hg": true,
-        "**/CVS": true,
-        "**/.DS_Store": true,
-        "back-end": true,
-        "front-end": true,
-        "docs": true,
-        "**/node_modules": true
-      }
+  "folders": [
+    {
+      "path": "./docs",
+      "name": "DOCS"
+    },
+    {
+      "path": "./back-end",
+      "name": "BACKEND🔥"
+    },
+    {
+      "path": "./client",
+      "name": "WEB_CLIENT"
+    },
+    {
+      "path": "./admin",
+      "name": "WEB_ADMIN"
+    },
+    {
+      "path": ".",
+      "name": "ROOT🇻🇳"
+    }
+  ],
+  "settings": {
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": true,
+      "source.fixAll": true,
+      "prettier": true
+    },
+    "editor.formatOnSave": true,
+    "files.exclude": {
+      "**/.git": true,
+      "**/.svn": true,
+      "**/.hg": true,
+      "**/CVS": true,
+      "**/.DS_Store": true,
+      "back-end": true,
+      "client": true,
+      "admin": true,
+      "docs": true,
+      "**/node_modules": true
     }
   }
-  
+}
