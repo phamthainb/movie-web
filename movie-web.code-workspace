@@ -2,19 +2,19 @@
   "folders": [
     {
       "path": "./docs",
-      "name": "DOCS"
+      "name": "docs"
     },
     {
-      "path": "./back-end",
-      "name": "BACKEND🔥"
+      "path": "./api",
+      "name": "api"
     },
     {
       "path": "./client",
-      "name": "WEB_CLIENT"
+      "name": "client"
     },
     {
       "path": "./admin",
-      "name": "WEB_ADMIN"
+      "name": "admin"
     },
     {
       "path": ".",
