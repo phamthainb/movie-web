@@ -1,0 +1,12 @@
+- api
+  - auth:
+    - register: form, gg, fb,...
+    - login: jwt
+  - movie:
+    - list movie: genre, name, actor, direct, runtime, imbd_score, year
+    - list suggest
+    - watch by id
+  - comment: socket
+    - list comment
+    - comment
+  -

@@ -3,12 +3,12 @@
  * Loading
  *
  */
-import React, { memo, useEffect } from 'react';
+import { memo, useEffect } from 'react';
 import styled from 'styled-components';
 import { ReactComponent as IconLoading } from './icon-loading.svg';
 
 interface Props {
-  active: boolean;
+  active?: boolean;
 }
 
 function Loading({ active }: Props) {

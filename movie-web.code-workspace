@@ -37,6 +37,7 @@
       "back-end": true,
       "client": true,
       "admin": true,
+      "api": true,
       "docs": true,
       "**/node_modules": true
     }

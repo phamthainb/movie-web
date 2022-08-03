@@ -3,7 +3,7 @@
  * ErrorBound
  *
  */
-import React, { ErrorInfo } from "react";
+import React, { ErrorInfo } from 'react';
 
 interface Props {}
 
@@ -20,19 +20,19 @@ class ErrorBound extends React.Component<Props, State> {
 
   static getDerivedStateFromError(error: Error) {
     // Update state so the next render will show the fallback UI.
-    console.log("Error Boundry", error);
+    console.log('Error Boundry', error);
     return { hasError: true };
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     // You can also log the error to an error reporting service
-    console.log("Error Boundry", error, errorInfo);
+    console.log('Error Boundry', error, errorInfo);
   }
 
   render() {
     if (this.state.hasError) {
       // You can render any custom fallback UI
-      return <span>Error Boundry</span>;
+      return <span style={{ color: 'red' }}>Error Boundry</span>;
     }
 
     return this.props.children;

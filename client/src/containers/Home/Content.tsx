@@ -77,7 +77,7 @@ export default function Content() {
       {/* content */}
       <section className="content">
         <div className="container">
-          <h2 className="content__title">New items</h2>
+          <h2 className="content__title">Category</h2>
         </div>
         <TabWrap
           title={['NEW RELEASES', 'MOVIES', 'TV SERIES', 'CARTOONS']}

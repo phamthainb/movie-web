@@ -177,96 +177,8 @@ function MovieWatching({}: Props) {
                             Comments
                           </a>
                         </li>
-                        <li className="nav-item">
-                          <a
-                            className="nav-link"
-                            data-toggle="tab"
-                            href="#tab-2"
-                            role="tab"
-                            aria-controls="tab-2"
-                            aria-selected="false"
-                          >
-                            Reviews
-                          </a>
-                        </li>
-                        <li className="nav-item">
-                          <a
-                            className="nav-link"
-                            data-toggle="tab"
-                            href="#tab-3"
-                            role="tab"
-                            aria-controls="tab-3"
-                            aria-selected="false"
-                          >
-                            Photos
-                          </a>
-                        </li>
                       </ul>
                       {/* end content tabs nav */}
-                      {/* content mobile tabs nav */}
-                      <div
-                        className="content__mobile-tabs"
-                        id="content__mobile-tabs"
-                      >
-                        <div
-                          className="content__mobile-tabs-btn dropdown-toggle"
-                          role="navigation"
-                          id="mobile-tabs"
-                          data-toggle="dropdown"
-                          aria-haspopup="true"
-                          aria-expanded="false"
-                        >
-                          <input type="button" defaultValue="Comments" />
-                          <span />
-                        </div>
-                        <div
-                          className="content__mobile-tabs-menu dropdown-menu"
-                          aria-labelledby="mobile-tabs"
-                        >
-                          <ul className="nav nav-tabs" role="tablist">
-                            <li className="nav-item">
-                              <a
-                                className="nav-link active"
-                                id="1-tab"
-                                data-toggle="tab"
-                                href="#tab-1"
-                                role="tab"
-                                aria-controls="tab-1"
-                                aria-selected="true"
-                              >
-                                Comments
-                              </a>
-                            </li>
-                            <li className="nav-item">
-                              <a
-                                className="nav-link"
-                                id="2-tab"
-                                data-toggle="tab"
-                                href="#tab-2"
-                                role="tab"
-                                aria-controls="tab-2"
-                                aria-selected="false"
-                              >
-                                Reviews
-                              </a>
-                            </li>
-                            <li className="nav-item">
-                              <a
-                                className="nav-link"
-                                id="3-tab"
-                                data-toggle="tab"
-                                href="#tab-3"
-                                role="tab"
-                                aria-controls="tab-3"
-                                aria-selected="false"
-                              >
-                                Photos
-                              </a>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                      {/* end content mobile tabs nav */}
                     </div>
                   </div>
                 </div>
@@ -808,6 +720,7 @@ function MovieWatching({}: Props) {
                     </div>
                     {/* end content tabs */}
                   </div>
+
                   {/* sidebar */}
                   <div className="col-12 col-lg-4 col-xl-4">
                     <div className="row">
@@ -966,60 +879,6 @@ function MovieWatching({}: Props) {
               </div>
             </section>
             {/* end content */}
-
-            {/* Root element of PhotoSwipe. Must have class pswp. */}
-            <div
-              className="pswp"
-              tabIndex={-1}
-              role="dialog"
-              aria-hidden="true"
-            >
-              <div className="pswp__bg" />
-              {/* Slides wrapper with overflow:hidden. */}
-              <div className="pswp__scroll-wrap">
-                {/* Container that holds slides. PhotoSwipe keeps only 3 slides in DOM to save memory. */}
-                {/* don't modify these 3 pswp__item elements, data is added later on. */}
-                <div className="pswp__container">
-                  <div className="pswp__item" />
-                  <div className="pswp__item" />
-                  <div className="pswp__item" />
-                </div>
-                {/* Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. */}
-                <div className="pswp__ui pswp__ui--hidden">
-                  <div className="pswp__top-bar">
-                    {/*  Controls are self-explanatory. Order can be changed. */}
-                    <div className="pswp__counter" />
-                    <button
-                      className="pswp__button pswp__button--close"
-                      title="Close (Esc)"
-                    />
-                    <button
-                      className="pswp__button pswp__button--fs"
-                      title="Toggle fullscreen"
-                    />
-                    {/* Preloader */}
-                    <div className="pswp__preloader">
-                      <div className="pswp__preloader__icn">
-                        <div className="pswp__preloader__cut">
-                          <div className="pswp__preloader__donut" />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <button
-                    className="pswp__button pswp__button--arrow--left"
-                    title="Previous (arrow left)"
-                  />
-                  <button
-                    className="pswp__button pswp__button--arrow--right"
-                    title="Next (arrow right)"
-                  />
-                  <div className="pswp__caption">
-                    <div className="pswp__caption__center" />
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </WrapMovieWatching>
       </WrapLayout>
