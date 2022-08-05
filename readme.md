@@ -11,9 +11,9 @@
     - [x] convert mp4 to m3u8
     - [x] stream video with HLS
   - [-] comment: socket
-    - [-] list comment
-    - [-] post comment
-    - [-] typing comment
+    - [x] list comment
+    - [x] post comment
+    - [x] typing comment
   - [-] home
     - [x] slide
     - [x] by tag
