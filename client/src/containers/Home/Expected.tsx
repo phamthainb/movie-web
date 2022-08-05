@@ -1,6 +1,22 @@
+import { request } from 'api/axios';
+import API_URL from 'api/url';
+
+import { useEffect, useState } from 'react';
 import OwlCarousel from 'react-owl-carousel';
+import { Link, useHistory } from 'react-router-dom';
 
 export default function Expected() {
+  const [data, setData] = useState([]);
+  const history = useHistory();
+
+  useEffect(() => {
+    request({ method: 'get', url: API_URL.MOVIE.GET_BY_STATUS('new') }).then(
+      res => {
+        setData(res.data);
+      },
+    );
+  }, []);
+
   return (
     <div>
       {/* section */}
@@ -37,53 +53,58 @@ export default function Expected() {
             {/* end section title */}
             {/* carousel */}
             <div className="col-12">
-              <OwlCarousel
-                className="owl-theme home__bg"
-                autoPlay
-                loop
-                items={5}
-                autoplayHoverPause
-                margin={30}
-              >
-                {/* card */}
-                <div className="card">
-                  <div className="card__cover">
-                    <img src="img/covers/cover6.jpg" alt="" />
-                    <a href="#" className="card__play">
-                      <i className="icon ion-ios-play" />
-                    </a>
-                    <span className="card__rate card__rate--green">7.1</span>
-                  </div>
-                  <div className="card__content">
-                    <h3 className="card__title">
-                      <a href="#">Benched</a>
-                    </h3>
-                    <span className="card__category">
-                      <a href="#">Comedy</a>
-                    </span>
-                  </div>
-                </div>
-                {/* end card */}
-                {/* card */}
-                <div className="card">
-                  <div className="card__cover">
-                    <img src="img/covers/cover6.jpg" alt="" />
-                    <a href="#" className="card__play">
-                      <i className="icon ion-ios-play" />
-                    </a>
-                    <span className="card__rate card__rate--green">7.1</span>
-                  </div>
-                  <div className="card__content">
-                    <h3 className="card__title">
-                      <a href="#">Benched</a>
-                    </h3>
-                    <span className="card__category">
-                      <a href="#">Comedy</a>
-                    </span>
-                  </div>
-                </div>
-                {/* end card */}
-              </OwlCarousel>
+              {data.length > 0 ? (
+                <OwlCarousel
+                  className="owl-theme home__bg"
+                  autoPlay
+                  loop
+                  items={5}
+                  autoplayHoverPause
+                  margin={30}
+                  dots={false}
+                >
+                  {data.map((item: any, i: number) => (
+                    <div className="card">
+                      <div className="card__cover">
+                        <img src="img/covers/cover.jpg" alt="" />
+                        {/* <img src="img/covers/cover.jpg" alt="" /> */}
+
+                        <Link
+                          to={`/watch/${item?.id}`}
+                          className="card__play"
+                          onClick={e => {
+                            // e.preventDefault();
+                            // toast('This moive will comming sooon', {
+                            //   icon: '👏',
+                            // });
+                          }}
+                        >
+                          <i className="icon ion-ios-play" />
+                        </Link>
+                        <span className="card__rate card__rate--green">
+                          {item?.avgVote}
+                        </span>
+                      </div>
+                      <div className="card__content">
+                        <h3 className="card__title">
+                          <a href="#">{item?.originalTitle}</a>
+                        </h3>
+                        <span className="card__category">
+                          {item?.tag?.map((k: any, j: number) => (
+                            <a key={j} href="#">
+                              {k?.name}
+                            </a>
+                          ))}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                  {/* card */}
+                  {/* end card */}
+                </OwlCarousel>
+              ) : (
+                ''
+              )}
             </div>
             {/* carousel */}
           </div>

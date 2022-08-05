@@ -12,6 +12,11 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
+export enum MovieStatus {
+  'new' = 'new',
+  'uploading' = 'uploading',
+  'done' = 'done',
+}
 @Entity()
 export class Movie extends BaseEntity {
   @PrimaryGeneratedColumn()
@@ -70,4 +75,7 @@ export class Movie extends BaseEntity {
 
   @Column({ nullable: true })
   image: string;
+
+  @Column({ type: 'enum', enum: MovieStatus, default: MovieStatus.new })
+  status: MovieStatus;
 }

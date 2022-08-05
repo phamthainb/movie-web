@@ -35,7 +35,7 @@ const imageFilter = (
   fileFilter(req, file, cb);
 };
 
-const generateFileName = (
+export const generateFileName = (
   req: Request,
   file: Express.Multer.File,
   cb: (error: Error, filename: string) => void,

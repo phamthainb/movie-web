@@ -33,7 +33,7 @@ export class Account extends BaseEntity {
   username: string;
 
   @Exclude()
-  @Column('varchar', { nullable: true })
+  @Column('varchar', { nullable: true, select: false })
   password: string;
 
   @Column('enum', { enum: EnumRole, default: EnumRole.USER })
@@ -42,6 +42,6 @@ export class Account extends BaseEntity {
   @Column({ type: 'enum', enum: LoginType, default: LoginType.normal })
   type: LoginType;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, select: false })
   ggAccessToken: string;
 }

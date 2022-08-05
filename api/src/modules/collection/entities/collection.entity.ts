@@ -12,7 +12,7 @@ import {
 
 export enum CollectionType {
   'slide' = 'slide',
-  'premiere' = 'premiere',
+  // 'premiere' = 'premiere',
 }
 
 @Entity()

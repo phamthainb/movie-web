@@ -28,6 +28,9 @@ export class Comment extends BaseEntity {
   @Column({ default: true })
   status: boolean;
 
+  @Column({ nullable: true })
+  content: string;
+
   @ManyToOne(() => Account)
   account: Account;
 

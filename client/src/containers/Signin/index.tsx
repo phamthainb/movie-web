@@ -6,6 +6,7 @@
 
 import ErrorBound from 'components/ErrorBound';
 import { memo } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 import useInjectReducer from 'redux/useInjectReducer';
 import reducersSignin from './store/reducers';
 import WrapSignin from './style';
@@ -15,6 +16,16 @@ interface Props {}
 // eslint-disable-next-line
 function Signin({}: Props) {
   useInjectReducer('Signin', reducersSignin);
+  const location = useLocation();
+  const history = useHistory();
+
+  const token = new URLSearchParams(location.search).get('token');
+  console.log('token', token);
+
+  if (token) {
+    localStorage.setItem('token', token);
+    history.push('/');
+  }
   return (
     <ErrorBound>
       <WrapSignin>

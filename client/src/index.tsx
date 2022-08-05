@@ -1,18 +1,17 @@
 import App from 'containers/App/App';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { ToastProvider } from 'react-toast-notifications';
 import * as serviceWorker from './serviceWorker';
 
+import { Toaster } from 'react-hot-toast';
 import { Provider } from 'react-redux';
 import store from './redux/store';
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <ToastProvider>
-        <App />
-      </ToastProvider>
+      <App />
+      <Toaster />
     </Provider>
   </React.StrictMode>,
   document.getElementById('root'),

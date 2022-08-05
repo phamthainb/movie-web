@@ -1,5 +1,13 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsArray, IsNumber, IsOptional, IsString } from 'class-validator';
+import {
+  IsArray,
+  IsNotEmpty,
+  IsNumber,
+  IsNumberString,
+  IsOptional,
+  IsString,
+} from 'class-validator';
+import { MovieStatus } from '../entities/movie.entity';
 
 export class CreateMovieDto {
   @ApiProperty()
@@ -98,4 +106,14 @@ export class SearchMovieDto {
   @IsOptional()
   @IsString()
   tag: string;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsNumberString()
+  tagId: number;
+
+  @ApiPropertyOptional({ enum: MovieStatus })
+  @IsOptional()
+  @IsNotEmpty()
+  status: MovieStatus;
 }

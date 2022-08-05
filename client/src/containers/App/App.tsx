@@ -45,7 +45,7 @@ function App() {
                 <Home />
               </Route>
 
-              <Route exact path="/watch">
+              <Route exact path="/watch/:movieId">
                 <MovieWatching />
               </Route>
 

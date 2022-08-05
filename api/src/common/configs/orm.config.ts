@@ -12,5 +12,5 @@ export const ormConfig = async (
   database: configService.get<string>('DB_SCHEMA'),
   entities: ['dist/**/*.entity{.ts,.js}'],
   synchronize: true,
-  logging: true,
+  // logging: true,
 });

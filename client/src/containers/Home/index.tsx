@@ -14,6 +14,7 @@ import Content from './Content';
 import Expected from './Expected';
 import HomeBg from './HomeBg';
 import reducersHome from './store/reducers';
+import WrapHome from './style';
 
 interface Props {}
 
@@ -24,12 +25,12 @@ function Home({}: Props) {
   return (
     <ErrorBound>
       <WrapLayout>
-        <>
+        <WrapHome>
           <HomeBg />
           <Content />
           <Expected />
           <About />
-        </>
+        </WrapHome>
       </WrapLayout>
     </ErrorBound>
   );

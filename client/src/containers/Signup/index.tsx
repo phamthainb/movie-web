@@ -6,7 +6,7 @@
 
 import ErrorBound from 'components/ErrorBound';
 import { memo } from 'react';
-import { useToasts } from 'react-toast-notifications';
+import { useForm } from 'react-hook-form';
 import useInjectReducer from 'redux/useInjectReducer';
 import reducersSignup from './store/reducers';
 import WrapSignup from './style';
@@ -16,8 +16,12 @@ interface Props {}
 // eslint-disable-next-line
 function Signup({}: Props) {
   useInjectReducer('Signup', reducersSignup);
+  const { register, handleSubmit } = useForm();
 
-  const { addToast } = useToasts();
+  const onSumit = (data: any) => {
+    console.log('data', data);
+  };
+
   return (
     <ErrorBound>
       <WrapSignup>
@@ -35,43 +39,53 @@ function Signup({}: Props) {
               <div className="col-12">
                 <div className="sign__content">
                   {/* registration form */}
-                  <form action="#" className="sign__form">
+                  <form
+                    className="sign__form"
+                    onSubmit={(e: any) => {
+                      e.preventDefault();
+                      const formData = new FormData(e.target);
+                      const formProps = Object.fromEntries(formData);
+                      console.log(formProps);
+                    }}
+                  >
                     <a href="index.html" className="sign__logo">
-                      <img src="img/logo.svg" alt="" />
+                      <img src="/img/logo.svg" alt="" />
                     </a>
-                    <div className="sign__group">
-                      <input
-                        type="text"
-                        className="sign__input"
-                        placeholder="Name"
-                      />
-                    </div>
+
                     <div className="sign__group">
                       <input
                         type="text"
                         className="sign__input"
                         placeholder="Email"
+                        name="email"
                       />
                     </div>
+
                     <div className="sign__group">
                       <input
                         type="password"
                         className="sign__input"
                         placeholder="Password"
+                        name="password"
                       />
                     </div>
+
                     <div className="sign__group sign__group--checkbox">
                       <input id="remember" name="remember" type="checkbox" />
                       <label htmlFor="remember">
                         I agree to the <a href="privacy.html">Privacy Policy</a>
                       </label>
                     </div>
+
                     <button
-                      onClick={() => {
-                        addToast('hihi', { appearance: 'info' });
-                      }}
                       className="sign__btn"
-                      type="button"
+                      onSubmit={(e: any) => {
+                        e.preventDefault();
+                        const formData = new FormData(e.target);
+                        const formProps = Object.fromEntries(formData);
+                        console.log(formProps);
+                      }}
+                      type="submit"
                     >
                       Sign up
                     </button>

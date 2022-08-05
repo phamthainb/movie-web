@@ -1,12 +1,20 @@
-- api
-  - auth:
-    - register: form, gg, fb,...
-    - login: jwt
-  - movie:
-    - list movie: genre, name, actor, direct, runtime, imbd_score, year
-    - list suggest
-    - watch by id
-  - comment: socket
-    - list comment
-    - comment
-  -
+- [-] api
+
+  - [x] auth:
+    - [x] register: form, gg,...
+    - [x] login: jwt
+  - [-] movie:
+    - [-] (search): list movie: genre, name, actor, direct, runtime, imbd_score, year
+    - [-] list suggest
+    - [-] add Media (queues)
+    - [-] watch by id (count viewed, save history)
+    - [x] convert mp4 to m3u8
+    - [x] stream video with HLS
+  - [-] comment: socket
+    - [-] list comment
+    - [-] post comment
+    - [-] typing comment
+  - [-] home
+    - [x] slide
+    - [x] by tag
+    - [x] by comming sooon

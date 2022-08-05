@@ -35,6 +35,8 @@ export class CollectionService {
       .createQueryBuilder('c')
       .andWhere('c.type = :type', { type: body.type })
       .leftJoinAndSelect('c.movie', 'movie')
+      .leftJoinAndSelect('movie.tag', 'tag')
+      .leftJoinAndSelect('movie.actor', 'actor')
       .getMany();
     return c.map((k) => k.movie) ?? [];
   }

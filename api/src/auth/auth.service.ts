@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
@@ -50,7 +50,7 @@ export class AuthService {
         return account;
       }
     }
-    throw new UnauthorizedException();
+    throw new BadRequestException('Info not correct');
   }
 
   async generateToken(payload: Account) {
@@ -71,13 +71,15 @@ export class AuthService {
   }
 
   async findOneByUsername(username: string): Promise<Account> {
-    return await this.accountRepo.findOne({ where: { username } });
+    return await this.accountRepo.findOne({
+      where: { username },
+      select: ['username', 'createdAt', 'id', 'role', 'type', 'password'],
+    });
   }
 
   async findOneById(id: number): Promise<Account> {
     return await this.accountRepo.findOne({
       where: { id },
-      relations: ['cats'],
     });
   }
 
