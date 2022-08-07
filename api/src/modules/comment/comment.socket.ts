@@ -1,4 +1,3 @@
-import { InjectQueue } from '@nestjs/bull';
 import { CACHE_MANAGER, Inject, Injectable, UseGuards } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import {
@@ -9,7 +8,6 @@ import {
   WebSocketGateway,
   WebSocketServer,
 } from '@nestjs/websockets';
-import { Queue } from 'bull';
 import { Cache } from 'cache-manager';
 import * as jwt from 'jsonwebtoken';
 import { Server } from 'socket.io';
@@ -28,7 +26,6 @@ export class CommentSocket
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 {
   constructor(
-    @InjectQueue('room_watching') private roomWatchingQueues: Queue,
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
     private readonly authService: AuthService,
     private configService: ConfigService,
@@ -74,7 +71,7 @@ export class CommentSocket
   }
 
   async handleConnection(socket: SocketWithAccount) {
-    console.log('socket', socket.handshake.query);
+    // console.log('socket', socket.handshake.query);
 
     if (!socket.account) {
       console.log('handleConnection Unauthorize');

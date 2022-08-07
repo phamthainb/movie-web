@@ -16,13 +16,16 @@ import 'styles/fonts.css'; // import config font define
 import theme from 'styles/theme';
 import 'sweetalert2/dist/sweetalert2.min.css';
 // diff import
+import { requestToken } from 'api/axios';
+import API_URL from 'api/url';
 import Loading from 'components/Loading';
 import LoadingLazy from 'components/Loading/LoadingLazy';
 import NotFoundPage from 'components/NotFoundPage';
-import React, { Suspense } from 'react';
-import { useSelector } from 'react-redux';
+import React, { Suspense, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import LanguageProvider from './LanguageProvider';
+import { changeUser } from './store/actions';
 import { selectAppStore } from './store/selecters';
 
 const HelpPage = React.lazy(() => import('containers/HelpPage'));
@@ -34,6 +37,16 @@ const Signup = React.lazy(() => import('containers/Signup'));
 
 function App() {
   const { loading } = useSelector(selectAppStore);
+  const dis = useDispatch();
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      requestToken({ method: 'GET', url: API_URL.USER.Me }).then(res => {
+        dis(changeUser(res.data));
+      });
+    }
+  }, []);
 
   return (
     <Suspense fallback={<LoadingLazy />}>

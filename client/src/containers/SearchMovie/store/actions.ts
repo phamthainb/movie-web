@@ -1,12 +1,9 @@
 /*
-*
-* SearchMovie actions
-* make by phamthainb
-*/
-import * as types from './constants';
+ *
+ * SearchMovie actions
+ * make by phamthainb
+ */
 import { action } from 'typesafe-actions';
+import * as types from './constants';
 
-export const changeLogin = (val: boolean) => action(
- types.GET,
- val,
-);
+export const changeData = (val: any[]) => action(types.GET, val);

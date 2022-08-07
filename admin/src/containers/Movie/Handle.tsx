@@ -1,7 +1,10 @@
 import { Button, Modal } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Form, Input, Select } from "antd";
+import API_URL from "../../api/url";
+import { TypeActor, TypeTag } from "../../contexts/MovieContext";
+import { useRequest } from "../../hooks/useRequest";
 
 const { Option } = Select;
 
@@ -47,10 +50,23 @@ const rule = [
 ];
 const FormCreate = () => {
   const [form] = Form.useForm();
+  const { request } = useRequest();
+
+  const [tags, setTags] = useState([]);
+  const [actors, setActors] = useState([]);
 
   const onFinish = (values: any) => {
     console.log("Received values of form: ", values);
   };
+
+  useEffect(() => {
+    request({ method: "GET", url: API_URL.TAG.GET }).then((res) => {
+      setTags(res.data);
+    });
+    request({ method: "GET", url: API_URL.ACTOR.GET }).then((res) => {
+      setActors(res.data);
+    });
+  }, []);
 
   return (
     <Form
@@ -61,8 +77,8 @@ const FormCreate = () => {
       initialValues={{}}
       scrollToFirstError
     >
-      <Form.Item name="imdb" label="Score IMDB" rules={rule}>
-        <Input type={"number"} max={10} min={0} />
+      <Form.Item name="imdb" label="IMDB" rules={rule}>
+        <Input type={"text"} />
       </Form.Item>
 
       <Form.Item name="year" label="Year Realese" rules={rule}>
@@ -101,15 +117,17 @@ const FormCreate = () => {
         <Select
           mode="tags"
           placeholder="Please select"
-          defaultValue={["male"]}
+          defaultValue={[]}
           onChange={(value) => {
             console.log(value);
           }}
           style={{ width: "100%" }}
         >
-          <Option value="male">Male</Option>
-          <Option value="female">Female</Option>
-          <Option value="other">Other</Option>
+          {tags?.map((t: TypeTag, i) => (
+            <Option key={t.id} value={t.name}>
+              {t.name}
+            </Option>
+          ))}
         </Select>
       </Form.Item>
 
@@ -117,15 +135,17 @@ const FormCreate = () => {
         <Select
           mode="tags"
           placeholder="Please select"
-          defaultValue={["male"]}
+          defaultValue={[]}
           onChange={(value) => {
             console.log(value);
           }}
           style={{ width: "100%" }}
         >
-          <Option value="male">Male</Option>
-          <Option value="female">Female</Option>
-          <Option value="other">Other</Option>
+          {actors?.map((t: TypeActor, i) => (
+            <Option key={t.id} value={t.name}>
+              {t.name}
+            </Option>
+          ))}
         </Select>
       </Form.Item>
 

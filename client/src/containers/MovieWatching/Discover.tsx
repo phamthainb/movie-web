@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 import io from 'socket.io-client';
 import CommentList from './CommentList';
 import { selectMovieWatchingStore } from './store/selecters';
-import Suggest from './Suggest';
 
 export default function Discover() {
   const { data } = useSelector(selectMovieWatchingStore);
@@ -13,7 +12,7 @@ export default function Discover() {
 
   useEffect(() => {
     if (data?.id) {
-      const socket = io('http://localhost:2999', {
+      const socket = io(process.env.REACT_APP_SOCKET ?? 'localhost:2999', {
         query: { movieId: data?.id },
         extraHeaders: {
           authorization: `Bearer ${localStorage.getItem('token') ?? ''}`,
@@ -89,7 +88,7 @@ export default function Discover() {
             <CommentList />
 
             {/* sidebar */}
-            <Suggest />
+            {/* <Suggest /> */}
             {/* end sidebar */}
           </div>
         </div>

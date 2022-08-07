@@ -57,6 +57,16 @@ const WrapSearchMovie = styled.div`
       .react-dropdown-select-item {
         color: black;
       }
+      .react-dropdown-select-content {
+        span {
+          /* margin-top: 20px; */
+        }
+
+        input {
+          position: absolute;
+          top: 4px;
+        }
+      }
       span {
         position: relative;
         width: unset;

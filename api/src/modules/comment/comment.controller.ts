@@ -4,7 +4,6 @@ import {
   Delete,
   Get,
   Param,
-  Patch,
   Post,
   Query,
   UseGuards,
@@ -12,7 +11,10 @@ import {
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Account } from 'src/auth/account.entity';
 import { CurrentAccount } from 'src/common/decorators/current-user';
+import { Roles } from 'src/common/decorators/role';
+import { EnumRole } from 'src/common/enums/role.enum';
 import { JwtAuthGuard } from 'src/common/guard/jwt-auth.guard';
+import { RolesGuard } from 'src/common/guard/role.guard';
 import { CommentService } from './comment.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { UpdateCommentDto } from './dto/update-comment.dto';
@@ -37,17 +39,10 @@ export class CommentController {
     return this.commentService.findAll(body);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.commentService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCommentDto: UpdateCommentDto) {
-    return this.commentService.update(+id, updateCommentDto);
-  }
-
   @Delete(':id')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(EnumRole.ADMIN)
+  @ApiBearerAuth()
   remove(@Param('id') id: string) {
     return this.commentService.remove(+id);
   }

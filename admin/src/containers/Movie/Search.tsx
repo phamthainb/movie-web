@@ -8,39 +8,6 @@ const AdvancedSearchForm = () => {
   const [expand, setExpand] = useState(false);
   const [form] = Form.useForm();
 
-  const getFields = () => {
-    const count = expand ? 10 : 6;
-    const children = [];
-
-    for (let i = 0; i < count; i++) {
-      children.push(
-        <Col span={8} key={i}>
-          <Form.Item
-            name={`field-${i}`}
-            label={`Field ${i}`}
-            rules={[
-              {
-                required: true,
-                message: "Input something!",
-              },
-            ]}
-          >
-            {i % 3 !== 1 ? (
-              <Input placeholder="placeholder" />
-            ) : (
-              <Select defaultValue="2">
-                <Option value="1">1</Option>
-                <Option value="2">2</Option>
-              </Select>
-            )}
-          </Form.Item>
-        </Col>
-      );
-    }
-
-    return children;
-  };
-
   const onFinish = (values: any) => {
     console.log("Received values of form: ", values);
   };
@@ -52,7 +19,21 @@ const AdvancedSearchForm = () => {
       className="ant-advanced-search-form"
       onFinish={onFinish}
     >
-      <Row gutter={24}>{getFields()}</Row>
+      <Row gutter={24}>
+        <Col span={8}>
+          <Form.Item name={`name`} label={`name`}>
+            <Input placeholder="placeholder" />
+          </Form.Item>
+        </Col>
+        <Col span={8}>
+          <Form.Item name={`tag`} label={`tag`}>
+            <Select defaultValue="2">
+              <Option value="1">1</Option>
+              <Option value="2">2</Option>
+            </Select>
+          </Form.Item>
+        </Col>
+      </Row>
       <Row>
         <Col
           span={24}

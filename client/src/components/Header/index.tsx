@@ -1,15 +1,35 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 /**
  *
  * Header
  *
  */
-import { memo } from 'react';
+import { requestToken } from 'api/axios';
+import API_URL from 'api/url';
+import { changeUser } from 'containers/App/store/actions';
+import { selectAppStore } from 'containers/App/store/selecters';
+import { memo, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
 interface Props {}
 
 // eslint-disable-next-line
 function Header({}: Props) {
+  const { user } = useSelector(selectAppStore);
+  const dis = useDispatch();
+  const his = useHistory();
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      requestToken({ method: 'GET', url: API_URL.USER.Me }).then(res => {
+        dis(changeUser(res.data));
+      });
+    }
+  }, []);
+
   return (
     <StylesHeader>
       {/* header */}
@@ -19,48 +39,42 @@ function Header({}: Props) {
             <div className="col-12">
               <div className="header__content">
                 {/* header logo */}
-                <a href="index.html" className="header__logo">
-                  <img src="img/logo.svg" alt="" />
-                </a>
+                <Link to="/" className="header__logo">
+                  <img src="/img/logo.svg" alt="" />
+                </Link>
                 {/* end header logo */}
                 {/* header nav */}
                 <ul className="header__nav">
                   {/* dropdown */}
                   <li className="header__nav-item">
-                    <a className="dropdown-toggle header__nav-link" href="/">
+                    <Link className="dropdown-toggle header__nav-link" to="/">
                       Home
-                    </a>
+                    </Link>
                   </li>
                   {/* end dropdown */}
                   {/* dropdown */}
-                  <li className="header__nav-item">
-                    <a
+                  {/* <li className="header__nav-item">
+                    <Link
                       className="dropdown-toggle header__nav-link"
-                      href="/search"
+                      to="/search"
                     >
                       Catalog
-                    </a>
-                  </li>
-                  {/* end dropdown */}
-                  {/* <li className="header__nav-item">
-                    <a href="pricing.html" className="header__nav-link">
-                      Pricing Plan
-                    </a>
+                    </Link>
                   </li> */}
                   <li className="header__nav-item">
-                    <a href="/help" className="header__nav-link">
+                    <Link to="/help" className="header__nav-link">
                       Help
-                    </a>
+                    </Link>
                   </li>
                 </ul>
                 {/* end header nav */}
                 {/* header auth */}
                 <div className="header__auth">
-                  <a href="/search" className="header__search">
+                  <Link to="/search" className="header__search">
                     <button className="header__search-button" type="button">
                       <i className="icon ion-ios-search" />
                     </button>
-                  </a>
+                  </Link>
 
                   {/* dropdown */}
                   <div className="dropdown header__lang">
@@ -70,10 +84,28 @@ function Header({}: Props) {
                   </div>
 
                   {/* end dropdown */}
-                  <a href="/signin" className="header__sign-in">
-                    <i className="icon ion-ios-log-in" />
-                    <span>sign in</span>
-                  </a>
+                  {user?.id ? (
+                    <>
+                      <a href="#" className="header__sign-in">
+                        <span>{user?.username.slice(0, 10)}...</span>
+                      </a>
+                      <a
+                        href="#"
+                        className="header__sign-in"
+                        onClick={e => {
+                          e.preventDefault();
+                          localStorage.clear();
+                          his.push('/signin');
+                        }}
+                      >
+                        <span>Logout</span>
+                      </a>
+                    </>
+                  ) : (
+                    <Link to="/signin" className="header__sign-in">
+                      <span>sign in</span>
+                    </Link>
+                  )}
                 </div>
                 {/* end header auth */}
               </div>

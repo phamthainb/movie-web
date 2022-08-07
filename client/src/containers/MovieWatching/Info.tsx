@@ -33,7 +33,7 @@ export default function Info() {
                         alt={data?.originalTitle}
                       />
                       <span className="card__rate card__rate--green">
-                        {data?.imdb}
+                        {data?.avgVote}
                       </span>
                     </div>
                   </div>

@@ -55,10 +55,10 @@ export class Movie extends BaseEntity {
   @Column()
   description: string;
 
-  @Column({ default: 0 })
+  @Column({ default: 0, type: 'float' })
   avgVote: number;
 
-  @Column({ default: 0 })
+  @Column({ default: 0, type: 'float' })
   votes: number;
 
   @ManyToMany(() => Tag)

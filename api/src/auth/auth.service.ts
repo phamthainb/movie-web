@@ -2,9 +2,11 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
+import { EnumRole } from 'src/common/enums/role.enum';
 import { Account, LoginType } from './account.entity';
 import { AccountRepository } from './account.repository';
 import { CreateAccountDto } from './dto/create-account';
+import { LoginAccountDto } from './dto/login-account';
 
 @Injectable()
 export class AuthService {
@@ -13,6 +15,23 @@ export class AuthService {
     private readonly accountRepo: AccountRepository,
     private jwtService: JwtService,
   ) {}
+
+  async login(loginAccountDto: LoginAccountDto) {
+    const u = await this.accountRepo.findOne({
+      where: { username: loginAccountDto.username, type: LoginType.normal },
+    });
+
+    if (!u) {
+      throw new BadRequestException('User not found or try other method');
+    }
+
+    return this.generateToken(
+      await this.authentication(
+        loginAccountDto.username,
+        loginAccountDto.password,
+      ),
+    );
+  }
 
   async googleLogin(req) {
     if (!req.user) {
@@ -38,8 +57,19 @@ export class AuthService {
   }
 
   async register(accountDto: CreateAccountDto): Promise<CreateAccountDto> {
+    const u = await this.accountRepo.findOne({
+      where: { username: accountDto.username },
+    });
+    if (u) {
+      throw new BadRequestException('User has exist');
+    }
+
     const hashPassword = await this.hashPassword(accountDto.password);
-    await this.accountRepo.save({ ...accountDto, password: hashPassword });
+    await this.accountRepo.save({
+      ...accountDto,
+      password: hashPassword,
+      role: EnumRole.USER,
+    });
     return accountDto;
   }
 

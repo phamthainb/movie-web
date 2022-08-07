@@ -18,3 +18,10 @@
     - [x] slide
     - [x] by tag
     - [x] by comming sooon
+
+- Deploy:
+  - socket: 2900
+  - api: 3000
+  - user: 3001
+  - admin: 3002
+  - postgres:

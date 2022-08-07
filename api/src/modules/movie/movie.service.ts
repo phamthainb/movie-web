@@ -111,17 +111,64 @@ export class MovieService {
 
     // validate
     if (body.tag) {
-      m.andWhere('tag.name like :tag', { tag: `%${body.tag}%` });
+      m.andWhere('LOWER(tag.name) like :tag', {
+        tag: `%${body.tag.toLowerCase()}%`,
+      });
     }
     if (body.tagId) {
       m.andWhere('tag.id = :tagId', { tagId: body.tagId });
     }
     if (body.actor) {
-      m.andWhere('actor.name like :actor', { actor: `%${body.actor}%` });
+      m.andWhere('LOWER(actor.name) like :actor', {
+        actor: `%${body.actor.toLowerCase()}%`,
+      });
     }
     if (body.status) {
       m.andWhere('m.status = :status', { status: body.status });
     }
+
+    if (body.originalTitle) {
+      m.andWhere('LOWER(m.originalTitle) like :originalTitle', {
+        originalTitle: `%${body.originalTitle.toLowerCase()}%`,
+      });
+    }
+
+    if (body.director) {
+      m.andWhere('LOWER(m.director) like :director', {
+        director: `%${body.director.toLowerCase()}%`,
+      });
+    }
+
+    if (body.productionCompany) {
+      m.andWhere('LOWER(m.productionCompany) like :productionCompany', {
+        productionCompany: `${body.productionCompany.toLowerCase()}`,
+      });
+    }
+
+    if (body.durationFrom) {
+      m.andWhere('m.duration >= :durationFrom', {
+        durationFrom: body.durationFrom,
+      });
+    }
+
+    if (body.durationTo) {
+      m.andWhere('m.duration <= :durationTo', {
+        durationTo: body.durationTo,
+      });
+    }
+
+    if (body.yearFrom) {
+      m.andWhere('m.year >= :durationFrom', {
+        durationFrom: body.yearFrom,
+      });
+    }
+
+    if (body.yearTo) {
+      m.andWhere('m.year <= :durationTo', {
+        durationTo: body.yearTo,
+      });
+    }
+
     return m.getMany();
   }
 

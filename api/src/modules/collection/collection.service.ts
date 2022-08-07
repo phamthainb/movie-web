@@ -6,7 +6,6 @@ import {
   CreateCollectionDto,
   SearchCollectionDto,
 } from './dto/create-collection.dto';
-import { UpdateCollectionDto } from './dto/update-collection.dto';
 import { Collection } from './entities/collection.entity';
 
 @Injectable()
@@ -39,17 +38,5 @@ export class CollectionService {
       .leftJoinAndSelect('movie.actor', 'actor')
       .getMany();
     return c.map((k) => k.movie) ?? [];
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} collection`;
-  }
-
-  update(id: number, updateCollectionDto: UpdateCollectionDto) {
-    return `This action updates a #${id} collection`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} collection`;
   }
 }

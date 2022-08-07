@@ -1,5 +1,4 @@
 import {
-  DesktopOutlined,
   FileOutlined,
   PieChartOutlined,
   TeamOutlined,
@@ -26,15 +25,15 @@ const MyLayout = ({ children }: React.PropsWithChildren) => {
     {
       key: "1",
       icon: <PieChartOutlined />,
-      label: "Dash",
+      label: "Movie",
       onClick: () => nav("/"),
     },
-    {
-      key: "2",
-      icon: <DesktopOutlined />,
-      label: "Movie",
-      onClick: () => nav("/movie"),
-    },
+    // {
+    //   key: "2",
+    //   icon: <DesktopOutlined />,
+    //   label: "Movie",
+    //   onClick: () => nav("/movie"),
+    // },
     {
       key: "sub1",
       icon: <UserOutlined />,

@@ -4,12 +4,16 @@
  * make by phamthainb
  */
 
+import { requestInter } from 'api/axios';
+import API_URL from 'api/url';
 import ErrorBound from 'components/ErrorBound';
 import WrapLayout from 'containers/App/WrapLayout';
-import { memo } from 'react';
+import { memo, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import useInjectReducer from 'redux/useInjectReducer';
 import Data from './Data';
 import Filter from './Filter';
+import { changeData } from './store/actions';
 import reducersSearchMovie from './store/reducers';
 import WrapSearchMovie from './style';
 
@@ -18,6 +22,19 @@ interface Props {}
 // eslint-disable-next-line
 function SearchMovie({}: Props) {
   useInjectReducer('SearchMovie', reducersSearchMovie);
+  const dis = useDispatch();
+
+  useEffect(() => {
+    requestInter({
+      method: 'GET',
+      url: API_URL.MOVIE.GET,
+    })
+      .then(res => {
+        dis(changeData(res.data));
+      })
+      .catch();
+  }, []);
+
   return (
     <ErrorBound>
       <WrapLayout>

@@ -1,11 +1,14 @@
 /*
-*
-* SearchMovie types
-* make by phamthainb
-*/
+ *
+ * SearchMovie types
+ * make by phamthainb
+ */
+import { TypeMovie } from 'containers/MovieWatching/store/types';
 import { ActionType } from 'typesafe-actions';
 import * as actions from './actions';
 
-export interface StoreSearchMovie {}
+export interface StoreSearchMovie {
+  data: TypeMovie[] | undefined;
+}
 
 export type ActionsSearchMovie = ActionType<typeof actions>;

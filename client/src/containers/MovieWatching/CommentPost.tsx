@@ -17,7 +17,7 @@ export default function CommentPost() {
 
   useEffect(() => {
     if (data?.id) {
-      const socket = io('http://localhost:2999', {
+      const socket = io(process.env.REACT_APP_SOCKET ?? 'localhost:2999', {
         query: { movieId: data?.id },
         extraHeaders: {
           authorization: `Bearer ${localStorage.getItem('token') ?? ''}`,

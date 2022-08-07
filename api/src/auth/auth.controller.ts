@@ -47,12 +47,7 @@ export class AuthController {
 
   @Post('login')
   async login(@Body() loginAccountDto: LoginAccountDto) {
-    return this.authService.generateToken(
-      await this.authService.authentication(
-        loginAccountDto.username,
-        loginAccountDto.password,
-      ),
-    );
+    return this.authService.login(loginAccountDto);
   }
 
   @Get('accounts')

@@ -10,6 +10,9 @@ const API_URL = {
   TAG: {
     GET: "/tag",
   },
+  ACTOR: {
+    GET: "/actor",
+  },
   MOVIE: {
     GET_BY_TAG: (tagId: number) => `/movie/?tagId=${tagId}`,
     GET_BY_ID: (id: number) => `/movie/${id}`,

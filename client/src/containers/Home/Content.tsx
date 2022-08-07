@@ -11,7 +11,7 @@ const TabItem = ({ tagId }: { tagId: string }) => {
   useEffect(() => {
     request({ method: 'GET', url: API_URL.MOVIE.GET_BY_TAG(+tagId) }).then(
       res => {
-        setMovies(res.data);
+        setMovies(res.data.slice(0, 10));
       },
     );
   }, []);
@@ -70,8 +70,10 @@ export default function Content() {
     });
   }, []);
 
-  const titles = tags.map((item: any, i) => item.name);
-  const contents = tags.map((item: any, i) => <TabItem tagId={item?.id} />);
+  const titles = tags.slice(0, 10).map((item: any, i) => item.name);
+  const contents = tags
+    .slice(0, 10)
+    .map((item: any, i) => <TabItem tagId={item?.id} />);
 
   return (
     <div>

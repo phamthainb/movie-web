@@ -3,6 +3,7 @@
  * Footer
  *
  */
+import useScrollTop from 'hooks/useScrollTop';
 import { memo } from 'react';
 import styled from 'styled-components';
 
@@ -10,6 +11,7 @@ interface Props {}
 
 // eslint-disable-next-line
 function Footer({}: Props) {
+  const { triggerScrollTop } = useScrollTop();
   return (
     <StylesFooter>
       {/* footer */}
@@ -37,7 +39,14 @@ function Footer({}: Props) {
                   <a href="contacts.html">Contacts</a>
                   <a href="privacy.html">Privacy Policy</a>
                 </nav>
-                <button className="footer__back" type="button">
+                <button
+                  className="footer__back"
+                  type="button"
+                  onClick={e => {
+                    e.preventDefault();
+                    triggerScrollTop();
+                  }}
+                >
                   <i className="icon ion-ios-arrow-round-up" />
                 </button>
               </div>

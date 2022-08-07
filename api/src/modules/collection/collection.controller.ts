@@ -1,20 +1,14 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Patch,
-  Post,
-  Query,
-} from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { Roles } from 'src/common/decorators/role';
+import { EnumRole } from 'src/common/enums/role.enum';
+import { JwtAuthGuard } from 'src/common/guard/jwt-auth.guard';
+import { RolesGuard } from 'src/common/guard/role.guard';
 import { CollectionService } from './collection.service';
 import {
   CreateCollectionDto,
   SearchCollectionDto,
 } from './dto/create-collection.dto';
-import { UpdateCollectionDto } from './dto/update-collection.dto';
 
 @Controller('collection')
 @ApiTags('collection')
@@ -22,6 +16,9 @@ export class CollectionController {
   constructor(private readonly collectionService: CollectionService) {}
 
   @Post()
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(EnumRole.ADMIN)
+  @ApiBearerAuth()
   create(@Body() createCollectionDto: CreateCollectionDto) {
     return this.collectionService.create(createCollectionDto);
   }
@@ -29,23 +26,5 @@ export class CollectionController {
   @Get()
   findAll(@Query() body: SearchCollectionDto) {
     return this.collectionService.findAll(body);
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.collectionService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateCollectionDto: UpdateCollectionDto,
-  ) {
-    return this.collectionService.update(+id, updateCollectionDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.collectionService.remove(+id);
   }
 }

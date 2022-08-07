@@ -59,22 +59,22 @@ export class SearchMovieDto {
 
   @ApiPropertyOptional()
   @IsOptional()
-  @IsNumber()
+  @IsNumberString()
   yearFrom: number;
 
   @ApiPropertyOptional()
   @IsOptional()
-  @IsNumber()
+  @IsNumberString()
   yearTo: number;
 
   @ApiPropertyOptional()
   @IsOptional()
-  @IsNumber()
+  @IsNumberString()
   durationFrom: number;
 
   @ApiPropertyOptional()
   @IsOptional()
-  @IsNumber()
+  @IsNumberString()
   durationTo: number;
 
   @ApiPropertyOptional()

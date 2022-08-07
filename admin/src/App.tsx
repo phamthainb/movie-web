@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Loading from "./components/Loading";
-import Dashboard from "./containers/Dashboard";
 import Login from "./containers/Login";
 import Movie from "./containers/Movie";
 import { AppContext, AppContextType } from "./contexts";
@@ -20,8 +19,8 @@ const App = () => {
     <AppContext.Provider value={valuesContext}>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="movie" element={<Movie />} />
+          <Route path="/" element={<Movie />} />
+          {/* <Route path="slide" element={<Movie />} /> */}
           <Route path="login" element={<Login />} />
           <Route path="*" element={"Not found any"} />
           {/* <Outlet /> */}
