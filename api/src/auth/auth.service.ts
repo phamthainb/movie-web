@@ -6,7 +6,7 @@ import { EnumRole } from 'src/common/enums/role.enum';
 import { Account, LoginType } from './account.entity';
 import { AccountRepository } from './account.repository';
 import { CreateAccountDto } from './dto/create-account';
-import { LoginAccountDto } from './dto/login-account';
+import { LoginAccountDto, SearchAccountDto } from './dto/login-account';
 
 @Injectable()
 export class AuthService {
@@ -113,7 +113,15 @@ export class AuthService {
     });
   }
 
-  async findAll() {
-    return await this.accountRepo.find();
+  async findAll(body: SearchAccountDto) {
+    const u = this.accountRepo
+      .createQueryBuilder('a')
+      .andWhere('a.role != :ad', { ad: 'ADMIN' });
+
+    if (body?.username) {
+      u.andWhere('LOWER(a.username) like :us', { us: `%${body.username}%` });
+    }
+
+    return await u.getMany();
   }
 }

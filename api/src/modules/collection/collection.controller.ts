@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Roles } from 'src/common/decorators/role';
 import { EnumRole } from 'src/common/enums/role.enum';
@@ -26,5 +35,10 @@ export class CollectionController {
   @Get()
   findAll(@Query() body: SearchCollectionDto) {
     return this.collectionService.findAll(body);
+  }
+
+  @Delete(':id')
+  del(@Param('id') id: number) {
+    return this.collectionService.del(id);
   }
 }

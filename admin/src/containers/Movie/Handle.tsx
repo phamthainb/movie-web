@@ -1,9 +1,14 @@
-import { Button, Modal } from "antd";
-import { useEffect, useState } from "react";
+import { Button, message, Modal } from "antd";
+import { useContext, useEffect, useState } from "react";
 
 import { Form, Input, Select } from "antd";
 import API_URL from "../../api/url";
-import { TypeActor, TypeTag } from "../../contexts/MovieContext";
+import {
+  MovieContext,
+  TypeActor,
+  TypeMovie,
+  TypeTag,
+} from "../../contexts/MovieContext";
 import { useRequest } from "../../hooks/useRequest";
 
 const { Option } = Select;
@@ -48,7 +53,10 @@ const rule = [
     required: true,
   },
 ];
-const FormCreate = () => {
+
+const FormCreate = ({ setVisible, initialValues, callback }: any) => {
+  const { requestInterToken } = useRequest();
+  const { state, action } = useContext(MovieContext);
   const [form] = Form.useForm();
   const { request } = useRequest();
 
@@ -57,6 +65,37 @@ const FormCreate = () => {
 
   const onFinish = (values: any) => {
     console.log("Received values of form: ", values);
+    if (initialValues?.id) {
+      requestInterToken({
+        method: "PATCH",
+        url: API_URL.MOVIE.GET_BY_ID(initialValues?.id),
+        data: {
+          ...values,
+          year: +values?.year,
+          duration: +values?.duration,
+        },
+      }).then((res) => {
+        action.changeLoading(!state.loading);
+        setVisible(false);
+        message.success("Update success");
+        callback();
+      });
+    } else {
+      requestInterToken({
+        method: "POST",
+        url: API_URL.MOVIE.GET_ALL,
+        data: {
+          ...values,
+          year: +values?.year,
+          duration: +values?.duration,
+        },
+      }).then((res) => {
+        action.changeLoading(!state.loading);
+        setVisible(false);
+        message.success("Create success");
+        callback();
+      });
+    }
   };
 
   useEffect(() => {
@@ -68,13 +107,15 @@ const FormCreate = () => {
     });
   }, []);
 
+  console.log("initialValues", initialValues);
+
   return (
     <Form
       {...formItemLayout}
       form={form}
       name="Create"
       onFinish={onFinish}
-      initialValues={{}}
+      initialValues={initialValues}
       scrollToFirstError
     >
       <Form.Item name="imdb" label="IMDB" rules={rule}>
@@ -113,7 +154,7 @@ const FormCreate = () => {
         <Input.TextArea showCount />
       </Form.Item>
 
-      <Form.Item name="tag" label="Tags" rules={rule}>
+      <Form.Item name="tags" label="Tags" rules={rule}>
         <Select
           mode="tags"
           placeholder="Please select"
@@ -131,7 +172,7 @@ const FormCreate = () => {
         </Select>
       </Form.Item>
 
-      <Form.Item name="actor" label="Actors" rules={rule}>
+      <Form.Item name="actors" label="Actors" rules={rule}>
         <Select
           mode="tags"
           placeholder="Please select"
@@ -151,43 +192,59 @@ const FormCreate = () => {
 
       <Form.Item {...formItemLayout}>
         <Button type="primary" htmlType="submit">
-          Create
+          {initialValues?.id ? "Update Movie" : "Create Movie"}
         </Button>
       </Form.Item>
     </Form>
   );
 };
 
-const Handle = () => {
+const Handle = ({
+  pick,
+  open,
+  callback,
+}: {
+  pick: TypeMovie | undefined;
+  open: boolean;
+  callback: any;
+}) => {
   const [visible, setVisible] = useState(false);
 
-  const showModal = () => {
-    setVisible(true);
-  };
-
-  const handleOk = () => {
-    setVisible(false);
-  };
-
-  const handleCancel = () => {
-    setVisible(false);
-  };
+  useEffect(() => {
+    setVisible(open);
+  }, [open]);
 
   return (
     <>
-      <Button type="primary" onClick={showModal}>
+      <Button type="primary" onClick={() => setVisible(true)}>
         Create
       </Button>
       <Modal
-        onOk={handleOk}
-        onCancel={handleCancel}
+        onOk={() => setVisible(false)}
+        onCancel={() => setVisible(false)}
         width={1000}
         closable={true}
-        title="Create Movie"
+        title={pick ? "Update Movie" : "Create Movie"}
         visible={visible}
         footer={null}
       >
-        <FormCreate />
+        <FormCreate
+          setVisible={setVisible}
+          initialValues={{
+            id: pick?.id,
+            imdb: pick?.imdb,
+            year: pick?.year,
+            duration: pick?.duration,
+            originalTitle: pick?.originalTitle,
+            director: pick?.director,
+            writer: pick?.writer,
+            productionCompany: pick?.productionCompany,
+            description: pick?.description,
+            tags: pick?.tag.map((k) => k.name),
+            actors: pick?.actor?.map((k) => k.name),
+          }}
+          callback={callback}
+        />
       </Modal>
     </>
   );

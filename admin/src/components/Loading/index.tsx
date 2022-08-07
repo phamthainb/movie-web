@@ -3,9 +3,9 @@
  * Loading
  *
  */
-import { memo, useEffect } from 'react';
-import styled from 'styled-components';
-import { ReactComponent as IconLoading } from './icon-loading.svg';
+import { memo, useEffect } from "react";
+import styled from "styled-components";
+import { ReactComponent as IconLoading } from "./icon-loading.svg";
 
 interface Props {
   active?: boolean;
@@ -13,8 +13,8 @@ interface Props {
 
 function Loading({ active }: Props) {
   useEffect(() => {
-    if (active) document.body.style.overflow = 'hidden';
-    else document.body.style.overflow = 'auto';
+    if (active) document.body.style.overflow = "hidden";
+    else document.body.style.overflow = "auto";
   }, [active]);
 
   if (active)
@@ -34,6 +34,7 @@ const StylesLoading = styled.div`
   background: rgb(0 0 0 / 45%);
   align-items: center;
   display: flex;
+  z-index: 99999;
 `;
 
 export default memo(Loading);

@@ -22,6 +22,7 @@
 - Deploy:
   - socket: 2900
   - api: 3000
+  - bull: /admin/queues/queue/movie
   - user: 3001
   - admin: 3002
   - postgres:

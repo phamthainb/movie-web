@@ -6,9 +6,9 @@ import {
   MovieContextType,
   TypeMovie,
 } from "../../contexts/MovieContext";
+import { clearParams } from "../../helpers";
 import { useRequest } from "../../hooks/useRequest";
 import MyLayout from "../Layout";
-import Handle from "./Handle";
 import Search from "./Search";
 import Tables from "./Table";
 
@@ -34,18 +34,21 @@ export default function Movie() {
   const { requestToken } = useRequest();
 
   useEffect(() => {
-    requestToken({ method: "get", url: API_URL.MOVIE.GET_ALL }).then((res) => {
+    requestToken({
+      method: "get",
+      url: API_URL.MOVIE.GET_ALL,
+      params: clearParams(search),
+    }).then((res) => {
       setData(res.data);
     });
-  }, []);
+  }, [loading, search]);
 
-  console.log("data", data);
+  // console.log("data", data);
 
   return (
     <MyLayout>
       <MovieContext.Provider value={valuesContext}>
         <Search />
-        <Handle />
         <Divider />
         {data.length > 0 ? <Tables /> : ""}
       </MovieContext.Provider>

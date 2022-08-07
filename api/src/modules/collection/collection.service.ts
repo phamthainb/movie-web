@@ -37,6 +37,11 @@ export class CollectionService {
       .leftJoinAndSelect('movie.tag', 'tag')
       .leftJoinAndSelect('movie.actor', 'actor')
       .getMany();
-    return c.map((k) => k.movie) ?? [];
+
+    return c.map((k) => ({ ...k.movie, collectionId: k.id })) ?? [];
+  }
+
+  async del(id: number) {
+    return this.cRepo.delete(id);
   }
 }

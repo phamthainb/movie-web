@@ -8,12 +8,17 @@ import {
   Post,
   Query,
   UploadedFiles,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
-import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { diskStorage } from 'multer';
 import { generateFileName } from 'src/common/configs/file-interceptor.config';
+import { Roles } from 'src/common/decorators/role';
+import { EnumRole } from 'src/common/enums/role.enum';
+import { JwtAuthGuard } from 'src/common/guard/jwt-auth.guard';
+import { RolesGuard } from 'src/common/guard/role.guard';
 
 import { CreateMovieDto, SearchMovieDto } from './dto/create-movie.dto';
 import { UpdateMovieDto } from './dto/update-movie.dto';
@@ -25,11 +30,17 @@ export class MovieController {
   constructor(private readonly movieService: MovieService) {}
 
   @Post()
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(EnumRole.ADMIN)
+  @ApiBearerAuth()
   create(@Body() createMovieDto: CreateMovieDto) {
     return this.movieService.create(createMovieDto);
   }
 
   @Post('/media/:id')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(EnumRole.ADMIN)
+  @ApiBearerAuth()
   @UseInterceptors(
     FileFieldsInterceptor(
       [
@@ -87,11 +98,17 @@ export class MovieController {
   }
 
   @Patch(':id')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(EnumRole.ADMIN)
+  @ApiBearerAuth()
   update(@Param('id') id: string, @Body() updateMovieDto: UpdateMovieDto) {
     return this.movieService.update(+id, updateMovieDto);
   }
 
   @Delete(':id')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(EnumRole.ADMIN)
+  @ApiBearerAuth()
   remove(@Param('id') id: string) {
     return this.movieService.remove(+id);
   }

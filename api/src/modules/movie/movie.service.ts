@@ -1,10 +1,7 @@
-import * as ffmpegInstaller from '@ffmpeg-installer/ffmpeg';
+import { InjectQueue } from '@nestjs/bull';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import * as ffmpeg from 'fluent-ffmpeg';
-import { existsSync, mkdirSync } from 'fs';
-import { join } from 'path';
-import { cwd } from 'process';
+import { Queue } from 'bull';
 import { ActorService } from '../actor/actor.service';
 import { TagService } from '../tag/tag.service';
 import { CreateMovieDto, SearchMovieDto } from './dto/create-movie.dto';
@@ -18,6 +15,7 @@ export class MovieService {
     @InjectRepository(Movie) private mRepo: MovieRepository,
     private actorService: ActorService,
     private tagService: TagService,
+    @InjectQueue('movie') private movieQueue: Queue,
   ) {}
 
   async create(createMovieDto: CreateMovieDto) {
@@ -63,43 +61,14 @@ export class MovieService {
     }
 
     if (files?.video?.length > 0) {
-      const vid = files.video[0];
-      const vidName = vid.originalname.split('.')[0];
-      const outPath = `upload/m3u8/${vidName}`;
-
-      // check if outputDir exist
-      if (!existsSync(outPath)) {
-        mkdirSync(outPath, { recursive: true });
-      }
-
-      ffmpeg.setFfmpegPath(ffmpegInstaller.path);
-
-      ffmpeg(join(cwd(), vid.path), { timeout: 15 * 1000 })
-        .addOptions([
-          '-profile:v baseline',
-          '-level 3.0',
-          '-start_number 0',
-          '-hls_time 10',
-          '-hls_list_size 0',
-          '-f hls',
-        ])
-        .output(join(cwd(), outPath, `${vidName}.m3u8`))
-        .on('error', function (err, stdout, stderr) {
-          if (err) {
-            console.log(err.message);
-            console.log('stdout:\n' + stdout);
-            console.log('stderr:\n' + stderr);
-          }
-        })
-        .on('end', () => {
-          console.log('end');
-        })
-        .run();
-      //
-
-      m.status = MovieStatus.done;
+      await this.movieQueue.add(
+        'mp4-to-m3u8',
+        { movieId: m.id, file: files?.video?.[0] },
+        { delay: 100 },
+      );
     }
 
+    m.status = MovieStatus.uploading;
     return this.mRepo.save(m);
   }
 
@@ -107,7 +76,8 @@ export class MovieService {
     const m = this.mRepo
       .createQueryBuilder('m')
       .leftJoinAndSelect('m.tag', 'tag')
-      .leftJoinAndSelect('m.actor', 'actor');
+      .leftJoinAndSelect('m.actor', 'actor')
+      .orderBy('m.createdAt', 'DESC');
 
     // validate
     if (body.tag) {

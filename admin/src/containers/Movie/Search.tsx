@@ -1,15 +1,20 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { DownOutlined, UpOutlined } from "@ant-design/icons";
 import { Button, Col, Form, Input, Row, Select } from "antd";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { MovieContext } from "../../contexts/MovieContext";
 const { Option } = Select;
 
 const AdvancedSearchForm = () => {
   const [expand, setExpand] = useState(false);
   const [form] = Form.useForm();
-
+  const {
+    state: { search },
+    action: { changeSearch },
+  } = useContext(MovieContext);
   const onFinish = (values: any) => {
     console.log("Received values of form: ", values);
+    changeSearch(values);
   };
 
   return (
@@ -21,18 +26,18 @@ const AdvancedSearchForm = () => {
     >
       <Row gutter={24}>
         <Col span={8}>
-          <Form.Item name={`name`} label={`name`}>
+          <Form.Item name={`originalTitle`} label={`Name`}>
             <Input placeholder="placeholder" />
           </Form.Item>
         </Col>
-        <Col span={8}>
+        {/* <Col span={8}>
           <Form.Item name={`tag`} label={`tag`}>
             <Select defaultValue="2">
               <Option value="1">1</Option>
               <Option value="2">2</Option>
             </Select>
           </Form.Item>
-        </Col>
+        </Col> */}
       </Row>
       <Row>
         <Col
