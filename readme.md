@@ -4,10 +4,8 @@
     - [x] register: form, gg,...
     - [x] login: jwt
   - [-] movie:
-    - [-] (search): list movie: genre, name, actor, direct, runtime, imbd_score, year
-    - [-] list suggest
-    - [-] add Media (queues)
-    - [-] watch by id (count viewed, save history)
+    - [x] (search): list movie: genre, name, actor, direct, runtime, imbd_score, year
+    - [x] add Media (queues)
     - [x] convert mp4 to m3u8
     - [x] stream video with HLS
   - [-] comment: socket
